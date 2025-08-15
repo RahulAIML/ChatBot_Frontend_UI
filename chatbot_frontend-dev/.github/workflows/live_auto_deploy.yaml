@@ -1,0 +1,82 @@
+name: Deploy ReactJS Build to Live
+
+on:
+  push:
+    branches:
+      - live
+
+jobs:
+  build-and-deploy:
+    runs-on: self-hosted
+
+    strategy:
+      matrix:
+        server:
+          - name: 'Server1'
+            host: DTEUPLOAD1_FOR_FRONTEND_SERVER
+            username: MARCH_FRONTEND_LIVE_SERVER_USERNAME_1
+            password: MARCH_FRONTEND_LIVE_SERVER_PASSWORD_1
+          - name: 'Server2'
+            host: DTEUPLOAD2_FOR_FRONTEND_SERVER
+            username: MARCH_FRONTEND_LIVE_SERVER_USERNAME_1
+            password: MARCH_FRONTEND_LIVE_SERVER_PASSWORD_1
+
+    env:
+      SSH_PORT: 22
+      USERNAME: ${{ secrets[matrix.server.username] }}
+      PASSWORD: ${{ secrets[matrix.server.password] }}
+      HOST: ${{ secrets[matrix.server.host] }}
+      DIRECTORY: /home/march2024mahacet/public_html/march/candidate/
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      # - name: Update version in package.json with current timestamp
+      #   run: |
+      #     TIMESTAMP=$(date +%s)
+      #     jq --arg ts "$TIMESTAMP" '.version = $ts' package.json > tmp.json && mv tmp.json package.json
+
+      # - name: Install Dependencies
+      #   run: npm install
+
+      # - name: Build React App
+      #   run: npm run build
+
+      # - name: Update version.json with current timestamp
+      #   run: |
+      #     TIMESTAMP=$(date +%s)
+      #     echo "{\"version\": \"$TIMESTAMP\"}" > ./prod/version.json
+
+      # - name: Copy Build to Live Server
+      #   run: |
+      #     sshpass -p '${{ secrets[matrix.server.password] }}' rsync -avz --progress --checksum --delete --exclude '.git' -e 'ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o LogLevel=ERROR' ./prod/ ${{ secrets[matrix.server.username] }}@${{ secrets[matrix.server.host] }}:/home/march2024mahacet/public_html/march/candidate/
+
+      # - name: Generate checksums for local files
+      #   run: |
+      #     cd ./prod
+      #     find . -type f -exec md5sum {} \; | LC_ALL=C sort -k 2 > ../local_checksums.txt
+
+      # - name: Generate checksums on Live Server
+      #   run: |
+      #     sshpass -p '${{ secrets[matrix.server.password] }}' ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o LogLevel=ERROR ${{ secrets[matrix.server.username] }}@${{ secrets[matrix.server.host] }} "cd $DIRECTORY && find . -type f ! -name 'checksums_remote.txt' -exec md5sum {} \; | LC_ALL=C sort -k 2 > checksums_remote.txt"
+
+      # - name: Fetch checksums from Live Server
+      #   run: |
+      #     sshpass -p '${{ secrets[matrix.server.password] }}' scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o LogLevel=ERROR ${{ secrets[matrix.server.username] }}@${{ secrets[matrix.server.host] }}:$DIRECTORY/checksums_remote.txt ./checksums_remote.txt
+
+      # - name: Compare checksums
+      #   run: |
+      #     echo "Local Checksums:"
+      #     cat ./local_checksums.txt
+      #     echo "Remote Checksums:"
+      #     cat ./checksums_remote.txt
+      #     if ! diff ./local_checksums.txt ./checksums_remote.txt; then
+      #       echo "Checksums do not match! Deployment failed."
+      #       exit 1
+      #     else
+      #       echo "Checksums match. Deployment successful."
+      #     fi
+
+      # - name: Deployment completed
+      #   run: echo "Deployment to ${{ matrix.server.name }} completed successfully."

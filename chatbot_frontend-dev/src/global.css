@@ -1,0 +1,215 @@
+/** **************************************
+* Fonts: app
+*************************************** */
+@import '@fontsource-variable/public-sans';
+
+@import '@fontsource/barlow/400.css';
+@import '@fontsource/barlow/500.css';
+@import '@fontsource/barlow/600.css';
+@import '@fontsource/barlow/700.css';
+@import '@fontsource/barlow/800.css';
+
+/** **************************************
+* Fonts: options
+*************************************** */
+@import '@fontsource-variable/dm-sans';
+@import '@fontsource-variable/inter';
+@import '@fontsource-variable/nunito-sans';
+
+/** **************************************
+* Plugins
+*************************************** */
+/* scrollbar */
+@import './components/scrollbar/styles.css';
+
+/* image */
+@import './components/image/styles.css';
+
+/* map */
+@import './components/map/styles.css';
+
+/* lightbox */
+@import './components/lightbox/styles.css';
+
+/* chart */
+@import './components/chart/styles.css';
+
+/** **************************************
+* Baseline
+*************************************** */
+html {
+  height: 100%;
+  -webkit-overflow-scrolling: touch;
+}
+body,
+#root,
+#root__layout {
+  display: flex;
+  flex: 1 1 auto;
+  min-height: 100%;
+  flex-direction: column;
+}
+img {
+  max-width: 100%;
+  vertical-align: middle;
+}
+ul {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+input[type='number'] {
+  -moz-appearance: textfield;
+  appearance: none;
+}
+input[type='number']::-webkit-outer-spin-button {
+  margin: 0;
+  -webkit-appearance: none;
+}
+input[type='number']::-webkit-inner-spin-button {
+  margin: 0;
+  -webkit-appearance: none;
+}
+
+
+.labl {
+	display: block;
+	/* width: 400px; */
+}
+.labl > input {
+	/* HIDE RADIO */
+	visibility: hidden; /* Makes input not-clickable */
+	position: absolute; /* Remove input from document flow */
+}
+.labl > input + div {
+	/* DIV STYLES */
+	cursor: pointer;
+	background-color: #8bd6d53d;
+	border: 1px solid #529e9d;
+}
+.labl > input:checked + div {
+	/* (RADIO CHECKED) DIV STYLES */
+	background-color: #145a0b3d;
+	border: 1px solid #021a05;
+}
+
+.tdLeftPadding{
+	padding-left: 7px;
+}
+
+.print_header td,
+	.print_header th,
+	.print_header tr {
+		border:1px solid #333;
+		
+		font-weight: 800;
+	}
+	.print_header{
+		margin-bottom: 2px;
+	}
+	.print_header th{
+		font-size: 14px;
+	}
+
+  /* #section-to-print {
+		visibility: visible;
+		position: absolute;
+		left: 0;
+		top: 0;
+	}
+	table {
+		border-collapse: collapse;
+		page-break-inside: avoid;
+		margin-bottom: 2px;
+	}
+	#section-to-print{
+		border: 0 !important;
+	} */
+
+	.scroll-block {
+		overflow: auto;
+	}
+
+	@media print {
+		body {
+			visibility: hidden;
+		}
+		@page {
+			
+			margin: 5mm 5mm 5mm 5mm;
+			font-size: 10px;
+		  }
+		.not-shown {
+			visibility: hidden;
+			display: none;
+		}
+		#section-to-print {
+			visibility: visible;
+			position: absolute;
+			left: 0;
+			top: 0;
+		}
+		table {
+			border-collapse: collapse;
+			page-break-inside: avoid;
+			margin-bottom: 2px;
+		}
+		#section-to-print{
+			border: 0 !important;
+		}
+		table td{
+			padding: 0px 1px 0px 10px !important;
+			border:1px solid #333;
+		}
+		.print_header td,
+		.print_header th,
+		.print_header tr {
+			border:1px solid #333;
+			
+			font-weight: 800;
+		}
+		.print_header{
+			margin-bottom: 2px;
+		}
+		.print_header th{
+			font-size: 14px;
+		}
+		th {
+			-webkit-print-color-adjust: exact;
+			
+		}
+	
+		td,
+		th {
+			border: 1px solid #ddd;
+			padding: 4px;
+		}
+	}
+	  .chatbot-button-fixed {
+		position: fixed;
+		bottom: 20px;
+		right: 20px;
+		z-index: 1300;
+		width: 80px;
+		height: 80px;
+		background: linear-gradient(to bottom, #949aa7, #6da0e7);
+		border: 4px solid #e5e7eb;
+		border-radius: 50%;
+		box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+		cursor: pointer;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		transition: transform 0.3s ease;
+	  }
+	  
+	  .chatbot-button-fixed:hover {
+		transform: scale(1.05);
+	  }
+	  
+	  .chatbot-icon {
+		width: 48px;
+		height: 48px;
+		object-fit: contain;
+	  }
+	  

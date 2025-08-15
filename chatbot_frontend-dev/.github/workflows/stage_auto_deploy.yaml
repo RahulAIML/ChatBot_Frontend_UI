@@ -1,0 +1,32 @@
+name: Deploy ReactJS Build to Stage
+
+on:
+  push:
+    branches:
+      - stage
+
+jobs:
+  build-and-deploy:
+    runs-on: self-hosted
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Build React App
+        run: npm run build:staging
+
+      - name: Copy Build to Stage Server
+        run: |
+          sshpass -p '${{ secrets.PUNE_STAGING_PASSWORD }}' rsync -avz --progress --checksum --delete --exclude '.git' -e 'ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o LogLevel=ERROR' ./prod/ ${{ secrets.PUNE_STAGING_USERNAME }}@${{ secrets.PUNE_STAGING_HOST }}:/home/node_cetdte_devLocal/Docker-devNode2024/react_build/mca/
+        env:
+          SSH_PORT: 22
+          USERNAME: ${{ secrets.PUNE_STAGING_USERNAME }}
+          PASSWORD: ${{ secrets.PUNE_STAGING_PASSWORD }}
+          HOST: ${{ secrets.PUNE_STAGING_HOST }}
+          DIRECTORY: /home/node_cetdte_devLocal/Docker-devNode2024/react_build/mca/
+
+      - name: Deployment completed
+        run: echo "Deployment to stage server completed successfully."

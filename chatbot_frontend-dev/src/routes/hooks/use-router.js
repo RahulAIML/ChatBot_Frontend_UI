@@ -1,0 +1,20 @@
+import { useMemo } from 'react';
+import { useNavigate } from 'react-router-dom';
+// ----------------------------------------------------------------------
+
+export function useRouter() {
+  const navigate = useNavigate();
+  const router = useMemo(
+    () => ({
+      back: () => navigate(-1),
+      forward: () => navigate(1),
+      refresh: () => navigate(0),
+      push: (href) => navigate(href),
+      replace: (href) => navigate(href, { replace: true }),
+      saveNextNavigation: (href,href2,userId) => navigate(userId ? href2 : href),
+    }),
+    [navigate]
+  );
+
+  return router;
+}
